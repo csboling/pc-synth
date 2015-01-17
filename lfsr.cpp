@@ -12,14 +12,15 @@ template <class T>
 class LFSR
 {
 private:
-  T taps;
+  T init_;
+  T current_;
+  T taps_;
   std::function<T (T value)>         cycle;
   std::function<T (T value, T taps)> eval;
   std::function<T (T curr,  T next)> combine;
 
 public:
-  T init;
-  T current;
+  /* constructor & destructor */
   LFSR
     ( T init,
       T taps,
@@ -30,26 +31,32 @@ public:
       T (*combine)(T curr,  T next)
         = [](T l, T r) { return (T)(l | r); }
     )
-    : init(init)
-    , current(init)
-    , taps(taps)
+    : init_(init)
+    , current_(init)
+    , taps_(taps)
     , cycle(cycle)
     , eval(eval)
     , combine(combine)
   {
   }
 
+  /* accessor methods */
+  const T & init()    const { return init_; }
+  const T & current() const { return current_; }
+  const T & taps()    const { return taps_; }
+
+  /* methods */
   T update
     (void)
   {
-    current = combine(cycle(current), eval(current, taps));
-    return current;
+    current_ = combine(cycle(current_), eval(current_, taps_));
+    return current_;
   }
 
   T update
     (T new_taps)
   {
-    taps = new_taps;
+    taps_ = new_taps;
     return update();
   }
 };
@@ -71,10 +78,9 @@ int main
 
   do
   {
-//    lfsrFile.write((const char *)&lfsrVal.current, sizeof(lfsrVal.current));
-    lfsrFile << lfsrVal.current << std::endl;
+    lfsrFile << lfsrVal.current() << std::endl;
     lfsrVal.update();
-  } while (lfsrVal.current != lfsrVal.init);
+  } while (lfsrVal.current() != lfsrVal.init());
 
   return 0;
 }
