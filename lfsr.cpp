@@ -64,17 +64,14 @@ public:
 int main
   (void)
 {
-
   const uint16_t init = ~0;
   const uint16_t taps = (1 << 15)
                       | (1 << 14)
                       | (1 << 12)
                       | (1 << 3);
 
-  std::ofstream lfsrFile;
-  LFSR<uint16_t> lfsrVal(0xFFFF, 0xD008);
-
-    lfsrFile.open("maximal.raw", std::ios::out | std::ios::binary);
+  std::ofstream lfsrFile("maximal.raw", std::ios::out | std::ios::binary);
+  LFSR<uint16_t> lfsrVal(init, taps);
 
   do
   {
