@@ -4,10 +4,10 @@ OBJS   = main.o
 INCLUDES = -Istk
 
 LIBS   = -lasound  \
-	 -lstk     \
-	 -lpthread
+         -lpthread \
+         -lstk
 
-CFLAGS = -Wall -D__LINUX_ALSA__ -std=gnu++11
+CFLAGS = -Wall -std=gnu++11 -D__LINUX_ALSA__ -D__LITTLE_ENDIAN__
 
 all: $(OBJS)
 	$(CC) $(OBJS) -o synth $(INCLUDES) $(LIBS)
