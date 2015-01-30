@@ -40,14 +40,14 @@ public:
   const T & taps()    const { return taps_; }
 
   /* methods */
-  T update
+  T tick
     (void);
 
-  T update
+  T tick
     (T new_taps);
 };
 
-const LFSR<uint16_t> maximal16(~0, 0xD008);
+LFSR<uint16_t> maximal16(~0, 0xD008);
 
 #include "lfsr_imp.hpp"
 

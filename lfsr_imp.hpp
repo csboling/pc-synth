@@ -3,7 +3,7 @@
 #endif
 
 template <typename T>
-T LFSR<T>::update
+T LFSR<T>::tick
   (void)
 {
   current_ = combine(cycle(current_), eval(current_, taps_));
@@ -11,9 +11,9 @@ T LFSR<T>::update
 }
 
 template <typename T>
-T LFSR<T>::update
+T LFSR<T>::tick
   (T new_taps)
 {
   taps_ = new_taps;
-  return update();
+  return tick();
 }
