@@ -49,6 +49,8 @@ public:
 
 LFSR<uint16_t> maximal16(~0, 0xD008);
 
+#define __LFSR_IMP_HPP_PROTECT
 #include "lfsr_imp.hpp"
+#undef  __LFSR_IMP_HPP_PROTECT
 
 #endif /* #ifndef __LFSR_HPP_GUARD */

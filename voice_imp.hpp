@@ -5,7 +5,7 @@
 using namespace stk;
 
 template <typename Source>
-static int tick_callback
+int tick_callback
   (void * outputBuffer, void * inputBuffer, unsigned int nBufferFrames,
    double streamTime, RtAudioStreamStatus status, void * dataPointer)
 {
@@ -28,10 +28,11 @@ Voice<Source>::Voice
 
   parameters.deviceId  = dac->getDefaultOutputDevice();
   parameters.nChannels = channels;
+
   try
   {
     dac->openStream(&parameters, NULL, RTAUDIO_SINT16, (unsigned int)Stk::sampleRate(),
-                    &frameBufferSize, &tick_callback<Source>, (void *)source);
+                    &frameBufferSize, &tick_callback<Source>, (void *)this);
   }
   catch (RtAudioError &error)
   {

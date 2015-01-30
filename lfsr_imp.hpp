@@ -1,4 +1,4 @@
-#ifndef __LFSR_HPP_GUARD
+#ifndef __LFSR_IMP_HPP_PROTECT
 #error "Include lfsr.hpp instead"
 #endif
 

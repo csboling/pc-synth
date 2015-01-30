@@ -6,6 +6,8 @@
 #include "lfsr.hpp"
 #include "voice.hpp"
 
+unsigned int global_counter = 0;
+
 int main
   (void)
 {
