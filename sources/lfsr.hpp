@@ -2,7 +2,6 @@
 #define __LFSR_HPP_GUARD
 
 #include <functional>
-#include <stk/Generator.h>
 
 template <typename T>
 class LFSR
@@ -40,10 +39,10 @@ public:
   const T & taps()    const { return taps_; }
 
   /* methods */
-  T tick
+  T update
     (void);
 
-  T tick
+  T update
     (T new_taps);
 };
 

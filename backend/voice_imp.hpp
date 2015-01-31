@@ -31,8 +31,9 @@ Voice<Source>::Voice
 
   try
   {
-    dac->openStream(&parameters, NULL, RTAUDIO_SINT16, (unsigned int)Stk::sampleRate(),
-                    &frameBufferSize, &tick_callback<Source>, (void *)this);
+    dac->openStream(&parameters, NULL, RTAUDIO_SINT16,
+                    (unsigned int)Stk::sampleRate(), &frameBufferSize,
+                    &tick_callback<Source>, (void *)this);
   }
   catch (RtAudioError &error)
   {
@@ -48,7 +49,7 @@ int Voice<Source>::tick
 {
   StkFloat * samples = (StkFloat *)outputBuffer;
   for ( unsigned int i=0; i<nBufferFrames; i++ )
-    *samples++ = (float)source->tick() / ~(uint16_t)0;
+    *samples++ = (StkFloat)source->tick() / ~(uint16_t)0;
   return 0;
 }
 
