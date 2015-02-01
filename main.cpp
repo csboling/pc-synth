@@ -3,8 +3,9 @@
 
 #include <stk/RtAudio.h>
 
-#include "backend/lfsr_inst.hpp"
-#include "backend/voice.hpp"
+#include "output/LFSRInstrument.hpp"
+#include "output/Voice.hpp"
+#include "input/EventManager.hpp"
 
 unsigned int global_counter = 0;
 

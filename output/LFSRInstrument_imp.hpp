@@ -1,5 +1,5 @@
-#ifndef __LFSR_INST_IMP_HPP_PROTECT
-#error "Include lfsr_inst.hpp instead"
+#ifndef __LFSRInstrument_IMP_HPP_PROTECT
+#error "Include LFSRInstrument.hpp instead"
 #endif
 
 template <typename LFSRBaseType>

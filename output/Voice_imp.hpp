@@ -1,5 +1,5 @@
-#ifndef __VOICE_IMP_HPP_PROTECT
-#error "include voice.hpp instead"
+#ifndef __Voice_IMP_HPP_PROTECT
+#error "Include Voice.hpp instead"
 #endif
 
 using namespace stk;

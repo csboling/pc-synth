@@ -5,9 +5,12 @@ INCLUDES = -Istk
 
 LIBS   = -lasound  \
          -lpthread \
-         -lstk
+         -lstk	   \
+	 `sdl2-config --libs`
 
-CFLAGS = -Wall -std=gnu++11 -D__LINUX_ALSA__ -D__LITTLE_ENDIAN__
+CFLAGS = -Wall -std=gnu++11 \
+	 -D__LINUX_ALSA__ -D__LITTLE_ENDIAN__ \
+	 `sdl2-config --cflags`
 
 all: $(OBJS)
 	$(CC) $(OBJS) -o synth $(INCLUDES) $(LIBS)

@@ -1,5 +1,5 @@
-#ifndef __VOICE_HPP_GUARD
-#define __VOICE_HPP_GUARD
+#ifndef __Voice_HPP_GUARD
+#define __Voice_HPP_GUARD
 
 #include <stk/RtWvOut.h>
 
@@ -22,8 +22,8 @@ public:
     (void);
 };
 
-#define __VOICE_IMP_HPP_PROTECT
-#include "voice_imp.hpp"
-#undef __VOICE_IMP_HPP_PROTECT
+#define __Voice_IMP_HPP_PROTECT
+#include "Voice_imp.hpp"
+#undef  __Voice_IMP_HPP_PROTECT
 
 #endif /* __VOICE_HPP_GUARD */
