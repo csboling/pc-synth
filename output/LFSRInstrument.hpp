@@ -18,7 +18,7 @@ namespace output
 
   public:
     void noteOn
-      (StkFloat frequency, StkFloat amplitude = 0);
+      (StkFloat frequency, StkFloat amplitude = 1.0);
     void noteOff
       (StkFloat amplitude);
 

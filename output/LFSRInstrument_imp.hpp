@@ -8,8 +8,7 @@ namespace output
   void LFSRInstrument<LFSRBaseType>::noteOn
     (StkFloat frequency, StkFloat amplitude)
   {
-    LFSRBaseType maximum = (1 << (sizeof(LFSRBaseType) * 3)) - 1;
-    this->set_taps((LFSRBaseType)maximum*(frequency / sampleRate()));
+    this->set_taps((LFSRBaseType)frequency);
   }
 
   template <typename LFSRBaseType>

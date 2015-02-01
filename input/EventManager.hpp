@@ -5,33 +5,32 @@
 #include <map>
 #include <queue>
 
-namespace std
-{
-  template <>
-  struct less<SDL_Event *>
-  {
-    bool operator()
-      (const SDL_Event*& x, const SDL_Event*& y)
-    {
-      return (x->type < y->type);
-    }
-  };
-};
-
 namespace input
 {
-  template <typename T>
+  template <typename SpecializedEvtMgr>
+  int processEvents
+    (void * data, SDL_Event * event);
+
+  template <typename Behavior>
   class EventManager
   {
-  using eventMap_t = std::map<const SDL_Event *, std::priority_queue<T>>;
+    using eventMap_t = std::map
+                       <
+                         decltype(SDL_Event::type),
+                         std::vector< Behavior >
+                       >;
   private:
     eventMap_t eventMap;
     SDL_EventFilter lastFilter;
     void * lastFilterData;
   public:
     EventManager
-      (eventMap_t keyMap);
+      (eventMap_t& keyMap);
     ~EventManager();
+
+  template <typename SpecializedEvtMgr>
+  friend int processEvents
+    (void * data, SDL_Event * event);
   };
 };
 

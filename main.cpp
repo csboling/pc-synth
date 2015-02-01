@@ -5,7 +5,7 @@
 
 #include "output/LFSRInstrument.hpp"
 #include "output/Voice.hpp"
-#include "input/EventManager.hpp"
+#include "input/Keyboard.hpp"
 
 unsigned int global_counter = 0;
 
