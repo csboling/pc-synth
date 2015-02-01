@@ -12,6 +12,9 @@ unsigned int global_counter = 0;
 int main
   (void)
 {
+  using output::Voice;
+  using output::LFSRInstrument;
+
   RtAudio dac;
   Voice<LFSRInstrument<uint16_t>> v(&dac, 48000.0, 1,
                                     new LFSRInstrument<uint16_t>(~0, 0xD008));

@@ -19,17 +19,20 @@ static int processEvents
   return actionCount;
 }
 
-template <typename T>
-EventManager<T>::EventManager
-  (eventMap_t eventMap)
-  : eventMap(eventMap)
+namespace input
 {
-  SDL_GetEventFilter(&lastFilter, &lastFilterData);
-  SDL_SetEventFilter(processEvents<EventManager<T>>, this);
-}
+  template <typename T>
+  EventManager<T>::EventManager
+    (eventMap_t eventMap)
+    : eventMap(eventMap)
+  {
+    SDL_GetEventFilter(&lastFilter, &lastFilterData);
+    SDL_SetEventFilter(processEvents<EventManager<T>>, this);
+  }
 
-template <typename T>
-EventManager<T>::~EventManager()
-{
-  SDL_SetEventFilter(lastFilter, lastFilterData);
-}
+  template <typename T>
+  EventManager<T>::~EventManager()
+  {
+    SDL_SetEventFilter(lastFilter, lastFilterData);
+  }
+};

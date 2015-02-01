@@ -5,65 +5,68 @@
 using namespace stk;
 
 template <typename Source>
-int tick_callback
+static int tick_callback
   (void * outputBuffer, void * inputBuffer, unsigned int nBufferFrames,
    double streamTime, RtAudioStreamStatus status, void * dataPointer)
 {
-  Voice<Source> * v = (Voice<Source> *)dataPointer;
+  output::Voice<Source> * v = (output::Voice<Source> *)dataPointer;
   return v->tick(outputBuffer, inputBuffer, nBufferFrames,
                  streamTime, status);
 }
 
-template <typename Source>
-Voice<Source>::Voice
-  (RtAudio * dac, float rate, unsigned int channels,
-   Source * source)
-  : dac(dac)
-  , source(source)
+namespace output
 {
-  Stk::setSampleRate(rate);
-  Stk::showWarnings(true);
-  RtAudio::StreamParameters parameters;
-  unsigned int frameBufferSize = RT_BUFFER_SIZE;
-
-  parameters.deviceId  = dac->getDefaultOutputDevice();
-  parameters.nChannels = channels;
-
-  try
+  template <typename Source>
+  Voice<Source>::Voice
+    (RtAudio * dac, float rate, unsigned int channels,
+     Source * source)
+    : dac(dac)
+    , source(source)
   {
-    dac->openStream(&parameters, NULL, RTAUDIO_SINT16,
-                    (unsigned int)Stk::sampleRate(), &frameBufferSize,
-                    &tick_callback<Source>, (void *)this);
-  }
-  catch (RtAudioError &error)
-  {
-    error.printMessage();
-    throw error;
-  }
-}
+    Stk::setSampleRate(rate);
+    Stk::showWarnings(true);
+    RtAudio::StreamParameters parameters;
+    unsigned int frameBufferSize = RT_BUFFER_SIZE;
 
-template <typename Source>
-int Voice<Source>::tick
-  (void * outputBuffer, void * inputBuffer, unsigned int nBufferFrames,
-   double streamTime, RtAudioStreamStatus status)
-{
-  StkFloat * samples = (StkFloat *)outputBuffer;
-  for ( unsigned int i=0; i<nBufferFrames; i++ )
-    *samples++ = (StkFloat)source->tick() / ~(uint16_t)0;
-  return 0;
-}
+    parameters.deviceId  = dac->getDefaultOutputDevice();
+    parameters.nChannels = channels;
 
-template <typename Source>
-void Voice<Source>::start
-  (void)
-{
-  try
-  {
-    dac->startStream();
+    try
+    {
+      dac->openStream(&parameters, NULL, RTAUDIO_SINT16,
+                      (unsigned int)Stk::sampleRate(), &frameBufferSize,
+                      &tick_callback<Source>, (void *)this);
+    }
+    catch (RtAudioError &error)
+    {
+      error.printMessage();
+      throw error;
+    }
   }
-  catch ( RtAudioError &error )
+
+  template <typename Source>
+  int Voice<Source>::tick
+    (void * outputBuffer, void * inputBuffer, unsigned int nBufferFrames,
+     double streamTime, RtAudioStreamStatus status)
   {
-    error.printMessage();
-    throw error;
+    StkFloat * samples = (StkFloat *)outputBuffer;
+    for ( unsigned int i=0; i<nBufferFrames; i++ )
+      *samples++ = (StkFloat)source->tick() / ~(uint16_t)0;
+    return 0;
   }
-}
+
+  template <typename Source>
+  void Voice<Source>::start
+    (void)
+  {
+    try
+    {
+      dac->startStream();
+    }
+    catch ( RtAudioError &error )
+    {
+      error.printMessage();
+      throw error;
+    }
+  }
+};

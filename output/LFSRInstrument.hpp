@@ -8,22 +8,25 @@ using stk::Instrmnt;
 using stk::StkFloat;
 using stk::StkFrames;
 
-template <typename LFSRBaseType>
-class LFSRInstrument : private LFSR<LFSRBaseType>
-                     , public virtual Instrmnt
+namespace output
 {
-  using LFSR<LFSRBaseType>::LFSR;
+  template <typename LFSRBaseType>
+  class LFSRInstrument : private LFSR<LFSRBaseType>
+                       , public virtual Instrmnt
+  {
+    using LFSR<LFSRBaseType>::LFSR;
 
-public:
-  void noteOn
-    (StkFloat frequency, StkFloat amplitude = 0);
-  void noteOff
-    (StkFloat amplitude);
+  public:
+    void noteOn
+      (StkFloat frequency, StkFloat amplitude = 0);
+    void noteOff
+      (StkFloat amplitude);
 
-  StkFloat tick
-    (unsigned int channel = 0);
-  StkFrames& tick
-    (StkFrames& frames, unsigned int channel = 0);
+    StkFloat tick
+      (unsigned int channel = 0);
+    StkFrames& tick
+      (StkFrames& frames, unsigned int channel = 0);
+  };
 };
 
 #define __LFSRInstrument_IMP_HPP_PROTECT

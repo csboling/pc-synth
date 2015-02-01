@@ -18,18 +18,21 @@ namespace std
   };
 };
 
-template <typename T>
-class EventManager
+namespace input
 {
-using eventMap_t = std::map<const SDL_Event *, std::priority_queue<T>>;
-private:
-  eventMap_t eventMap;
-  SDL_EventFilter lastFilter;
-  void * lastFilterData;
-public:
-  EventManager
-    (eventMap_t keyMap);
-  ~EventManager();
+  template <typename T>
+  class EventManager
+  {
+  using eventMap_t = std::map<const SDL_Event *, std::priority_queue<T>>;
+  private:
+    eventMap_t eventMap;
+    SDL_EventFilter lastFilter;
+    void * lastFilterData;
+  public:
+    EventManager
+      (eventMap_t keyMap);
+    ~EventManager();
+  };
 };
 
 #define __EventManager_IMP_HPP_PROTECT
