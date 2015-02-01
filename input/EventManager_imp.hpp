@@ -4,12 +4,11 @@
 
 namespace input
 {
-  template <typename SpecializedEvtMgr>
   int processEvents
     (void * data, SDL_Event * event)
   {
     unsigned int actionCount = 0;
-    SpecializedEvtMgr * m = (SpecializedEvtMgr *)data;
+    EventManager * m = (EventManager *)data;
 
     m->lastFilter(m->lastFilterData, event);
     for (auto action : m->eventMap.find(event->type)->second)
@@ -21,17 +20,15 @@ namespace input
     return actionCount;
   }
 
-  template <typename Behavior>
-  EventManager<Behavior>::EventManager
+  EventManager::EventManager
     (eventMap_t& eventMap)
     : eventMap(eventMap)
   {
     SDL_GetEventFilter(&lastFilter, &lastFilterData);
-    SDL_SetEventFilter(processEvents<EventManager<Behavior>>, (void *)this);
+    SDL_SetEventFilter(processEvents, (void *)this);
   }
 
-  template <typename Behavior>
-  EventManager<Behavior>::~EventManager()
+  EventManager::~EventManager()
   {
     SDL_SetEventFilter(lastFilter, lastFilterData);
   }

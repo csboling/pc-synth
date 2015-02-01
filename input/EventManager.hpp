@@ -7,17 +7,15 @@
 
 namespace input
 {
-  template <typename SpecializedEvtMgr>
   int processEvents
     (void * data, SDL_Event * event);
 
-  template <typename Behavior>
   class EventManager
   {
     using eventMap_t = std::map
                        <
                          decltype(SDL_Event::type),
-                         std::vector< Behavior >
+                         std::vector< std::function<void(SDL_Event&)> >
                        >;
   private:
     eventMap_t eventMap;
@@ -28,7 +26,6 @@ namespace input
       (eventMap_t& keyMap);
     ~EventManager();
 
-  template <typename SpecializedEvtMgr>
   friend int processEvents
     (void * data, SDL_Event * event);
   };
