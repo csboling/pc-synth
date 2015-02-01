@@ -9,7 +9,7 @@ class LFSR
 private:
   T init_;
   T current_;
-  T taps_;
+  T taps;
   std::function<T (T value)>         cycle;
   std::function<T (T value, T taps)> eval;
   std::function<T (T curr,  T next)> combine;
@@ -26,17 +26,20 @@ public:
       T (*combine)(T curr,  T next)
         = [](T l, T r) { return (T)(l | r); }
     )
-    : init_(init)
+    : init_   (init)
     , current_(init)
-    , taps_(taps)
-    , cycle(cycle)
-    , eval(eval)
-    , combine(combine) {}
+    , taps    (taps)
+    , cycle   (cycle)
+    , eval    (eval)
+    , combine (combine) {}
 
   /* accessor methods */
   const T & init()    const { return init_; }
   const T & current() const { return current_; }
-  const T & taps()    const { return taps_; }
+  void set_taps
+    (T mask) { taps |= mask; }
+  void clear_taps
+    (T mask) { taps &= ~mask; }
 
   /* methods */
   T update

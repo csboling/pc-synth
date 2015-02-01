@@ -6,12 +6,15 @@ template <typename LFSRBaseType>
 void LFSRInstrument<LFSRBaseType>::noteOn
   (StkFloat frequency, StkFloat amplitude)
 {
+  LFSRBaseType maximum = (1 << (sizeof(LFSRBaseType) * 3)) - 1;
+  this->set_taps((LFSRBaseType)maximum*(frequency / sampleRate()));
 }
 
 template <typename LFSRBaseType>
 void LFSRInstrument<LFSRBaseType>::noteOff
   (StkFloat amplitude)
 {
+  this->clear_taps(~0);
 }
 
 template <typename LFSRBaseType>
