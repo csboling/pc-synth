@@ -15,6 +15,7 @@ int main
   using output::Voice;
   using output::LFSRInstrument;
 
+  input::KeyManager mgr;
   RtAudio dac;
   Voice<LFSRInstrument<uint16_t>> v(&dac, 48000.0, 1,
                                     new LFSRInstrument<uint16_t>(~0, 0xD008));

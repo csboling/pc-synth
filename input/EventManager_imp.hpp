@@ -11,7 +11,7 @@ namespace input
     EventManager * m = (EventManager *)data;
 
     m->lastFilter(m->lastFilterData, event);
-    for (auto action : m->eventMap.find(event->type)->second)
+    for (auto action : m->events.find(event->type)->second)
     {
       action(*event);
       actionCount++;
@@ -21,8 +21,8 @@ namespace input
   }
 
   EventManager::EventManager
-    (eventMap_t& eventMap)
-    : eventMap(eventMap)
+    (EventMap& events)
+    : events(events)
   {
     SDL_GetEventFilter(&lastFilter, &lastFilterData);
     SDL_SetEventFilter(processEvents, (void *)this);
