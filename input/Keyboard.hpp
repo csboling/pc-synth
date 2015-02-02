@@ -36,13 +36,14 @@ namespace input
         {
           SDL_KEYDOWN,
           {
-            std::bind(&KeyManager::down, this, _1),
+            std::bind(&KeyManager::down,   this, _1),
+            std::bind(&KeyManager::repeat, this, _1),
           },
         },
         {
           SDL_KEYUP,
           {
-            std::bind(&KeyManager::down, this, _1),
+            std::bind(&KeyManager::down,   this, _1),
           },
         },
       };
@@ -57,32 +58,16 @@ namespace input
       {}
 
     void down
-      (const SDL_Event& e)
-    {
-      auto keyList = keys.find(e.key.keysym.sym);
-      if (keyList != keys.end())
-      {
-        for (auto key : keyList->second)
-        {
-          key.down();
-        }
-      }
-    }
-
+      (const SDL_Event& e);
+    void repeat
+      (const SDL_Event& e);
     void up
-      (const SDL_Event& e)
-    {
-      auto keyList = keys.find(e.key.keysym.sym);
-      if (keyList != keys.end())
-      {
-        for (auto key : keyList->second)
-        {
-          key.up();
-        }
-      }
-    }
+      (const SDL_Event& e);
   };
 };
 
+#define __Keyboard_IMP_HPP_PROTECT
+#include "Keyboard_imp.hpp"
+#undef  __Keyboard_IMP_HPP_PROTECT
 
 #endif /* __Keyboard_HPP_GUARD */

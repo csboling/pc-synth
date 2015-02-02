@@ -19,7 +19,6 @@ int main
 
   RtAudio dac;
 
-  SDL_Event dummy_event;
   if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
   {
     std::cout << "SDL_Init: " << SDL_GetError() << std::endl;
@@ -47,7 +46,10 @@ int main
     };
   input::KeyManager keyMgr(keymap);
 
-  while (SDL_WaitEvent(&dummy_event));
+  while (1)
+  {
+    SDL_PumpEvents();
+  }
 
 //  Voice<LFSRInstrument<uint16_t>> v(&dac, 48000.0, 1,
 //                                    new LFSRInstrument<uint16_t>(~0, 0xD008));
