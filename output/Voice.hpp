@@ -10,8 +10,9 @@ namespace output
   {
   private:
     RtAudio * dac;
-    Source  * source;
   public:
+    Source  * source;
+
     Voice
       (RtAudio * dac, float rate, unsigned int channels,
        Source * source);

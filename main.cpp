@@ -19,17 +19,20 @@ int main
 
   RtAudio dac;
 
-  if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+  if (SDL_Init(SDL_INIT_VIDEO))
   {
     std::cout << "SDL_Init: " << SDL_GetError() << std::endl;
     return -1;
   }
-  SDL_Window *win = SDL_CreateWindow("Hello World!", 100, 100, 640, 480, SDL_WINDOW_SHOWN);
-  if (win == nullptr){
-  	std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-  	SDL_Quit();
-  	return 1;
+  if (!SDL_CreateWindow("", 100, 100, 50, 50, SDL_WINDOW_SHOWN))
+  {
+    std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
+    SDL_Quit();
+    return -1;
   }
+
+  Voice<LFSRInstrument<uint16_t>> v(&dac, 48000.0, 1,
+                                    new LFSRInstrument<uint16_t>(~0, 0xD008));
 
   input::KeyMap keymap
     {
@@ -38,23 +41,40 @@ int main
         {
           input::KeyAction
           (
-            [] (void) { std::cout << 'Q'; std::cout.flush(); },
-            [] (void) { std::cout << '!'; std::cout.flush(); }
+            [v] (void) { v.source->noteOn((float)(1 << 0)); },
+            [v] (void) { v.source->noteOff(); }
+          ),
+        },
+      },
+      {
+        SDLK_w,
+        {
+          input::KeyAction
+          (
+            [v] (void) { v.source->noteOn((float)(1 << 1)); },
+            [v] (void) { v.source->noteOff(); }
+          ),
+        },
+      },
+      {
+        SDLK_e,
+        {
+          input::KeyAction
+          (
+            [v] (void) { v.source->noteOn((float)(1 << 2)); },
+            [v] (void) { v.source->noteOff(); }
           ),
         },
       },
     };
   input::KeyManager keyMgr(keymap);
 
+  v.start();
+
   while (1)
   {
     SDL_PumpEvents();
   }
-
-//  Voice<LFSRInstrument<uint16_t>> v(&dac, 48000.0, 1,
-//                                    new LFSRInstrument<uint16_t>(~0, 0xD008));
-//  v.start();
-//  std::cin.get();
 
   SDL_Quit();
   return 0;

@@ -8,7 +8,7 @@ namespace input
     (const SDL_Event& e)
   {
     /* skip key repeat events */
-    if (e.key.repeat)
+    if (e.key.repeat || (e.key.state != SDL_PRESSED))
     {
       return;
     }

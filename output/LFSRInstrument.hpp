@@ -20,7 +20,7 @@ namespace output
     void noteOn
       (StkFloat frequency, StkFloat amplitude = 1.0);
     void noteOff
-      (StkFloat amplitude);
+      (StkFloat amplitude = 0.0);
 
     StkFloat tick
       (unsigned int channel = 0);
