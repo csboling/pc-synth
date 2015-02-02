@@ -16,6 +16,12 @@ namespace input
   int processEvents
     (void * data, SDL_Event * event);
 
+  template <typename T>
+  T& selectSDLEventMember(SDL_Event& u)
+  {
+    return *((T *)&u);
+  }
+
   class EventManager
   {
   private:
@@ -29,38 +35,6 @@ namespace input
 
   friend int processEvents
     (void * data, SDL_Event * event);
-  };
-
-  class KeyManager : private EventManager
-  {
-  private:
-    EventMap events
-      {
-        { SDL_KEYDOWN,
-          {
-            [this](SDL_Event& e) { down(e.key); },
-          },
-        },
-        { SDL_KEYUP,
-          {
-            [this](SDL_Event& e) { up(e.key); },
-          },
-        },
-      };
-  public:
-    KeyManager
-      ()
-      : EventManager(events) {}
-
-    void down
-      (const SDL_KeyboardEvent& e)
-    {
-    }
-
-    void up
-      (const SDL_KeyboardEvent& e)
-    {
-    }
   };
 };
 

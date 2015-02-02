@@ -10,11 +10,19 @@ namespace input
     unsigned int actionCount = 0;
     EventManager * m = (EventManager *)data;
 
-    m->lastFilter(m->lastFilterData, event);
-    for (auto action : m->events.find(event->type)->second)
+    if (m->lastFilter)
     {
-      action(*event);
-      actionCount++;
+      m->lastFilter(m->lastFilterData, event);
+    }
+
+    auto actions = m->events.find(event->type);
+    if (actions != m->events.end())
+    {
+      for (auto action : actions->second)
+      {
+        action(*event);
+        actionCount++;
+      }
     }
 
     return actionCount;
