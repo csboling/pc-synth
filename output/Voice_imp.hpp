@@ -51,7 +51,9 @@ namespace output
   {
     StkFloat * samples = (StkFloat *)outputBuffer;
     for ( unsigned int i=0; i<nBufferFrames; i++ )
+    {
       *samples++ = (StkFloat)source->tick() / ~(uint16_t)0;
+    }
     return 0;
   }
 

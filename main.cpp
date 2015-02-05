@@ -17,8 +17,6 @@ int main
   using output::Voice;
   using output::LFSRInstrument;
 
-  RtAudio dac;
-
   if (SDL_Init(SDL_INIT_VIDEO))
   {
     std::cout << "SDL_Init: " << SDL_GetError() << std::endl;
@@ -31,6 +29,7 @@ int main
     return -1;
   }
 
+  RtAudio dac;
   Voice<LFSRInstrument<uint16_t>> v(&dac, 48000.0, 1,
                                     new LFSRInstrument<uint16_t>(~0, 0xD008));
 
@@ -41,11 +40,13 @@ int main
         {
           input::KeyAction
           (
-            [v] (void) { v.source->noteOn((float)(1 << 0)); },
+            [v] (void) {
+              v.source->noteOn((float)(1 << 0)); },
             [v] (void) { v.source->noteOff(); }
           ),
         },
       },
+      /*
       {
         SDLK_w,
         {
@@ -66,6 +67,7 @@ int main
           ),
         },
       },
+      */
     };
   input::KeyManager keyMgr(keymap);
 
