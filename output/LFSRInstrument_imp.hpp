@@ -8,6 +8,7 @@ namespace output
   void LFSRInstrument<LFSRBaseType>::noteOn
     (StkFloat frequency, StkFloat amplitude)
   {
+    std::cout << frequency << std::endl;
     this->set_taps((LFSRBaseType)frequency);
   }
 

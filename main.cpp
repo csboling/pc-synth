@@ -11,28 +11,31 @@
 
 unsigned int global_counter = 0;
 
+void startSDL
+  (void)
+{
+  if (SDL_Init(SDL_INIT_EVENTS))
+  {
+    std::cout << "SDL_Init: " << SDL_GetError() << std::endl;
+    throw;
+  }
+  if (!SDL_CreateWindow("", 100, 100, 50, 50, SDL_WINDOW_SHOWN))
+  {
+    std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
+    SDL_Quit();
+    throw;
+  }
+}
+
 int main
   (void)
 {
   using output::Voice;
   using output::LFSRInstrument;
 
-  if (SDL_Init(SDL_INIT_VIDEO))
-  {
-    std::cout << "SDL_Init: " << SDL_GetError() << std::endl;
-    return -1;
-  }
-  if (!SDL_CreateWindow("", 100, 100, 50, 50, SDL_WINDOW_SHOWN))
-  {
-    std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-    SDL_Quit();
-    return -1;
-  }
-
   RtAudio dac;
   Voice<LFSRInstrument<uint16_t>> v(&dac, 48000.0, 1,
                                     new LFSRInstrument<uint16_t>(~0, 0xD008));
-
   input::KeyMap keymap
     {
       {
@@ -40,20 +43,30 @@ int main
         {
           input::KeyAction
           (
-            [v] (void) {
-              v.source->noteOn((float)(1 << 0)); },
-            [v] (void) { v.source->noteOff(); }
+            [v] (void)
+            {
+              v.source->noteOn((float)(1 << 0));
+            },
+            [v] (void)
+            {
+              v.source->noteOff();
+            }
           ),
         },
       },
-      /*
       {
         SDLK_w,
         {
           input::KeyAction
           (
-            [v] (void) { v.source->noteOn((float)(1 << 1)); },
-            [v] (void) { v.source->noteOff(); }
+            [v] (void)
+            {
+              v.source->noteOn((float)(1 << 1));
+            },
+            [v] (void)
+            {
+              v.source->noteOff();
+            }
           ),
         },
       },
@@ -67,9 +80,17 @@ int main
           ),
         },
       },
-      */
     };
   input::KeyManager keyMgr(keymap);
+
+  try
+  {
+    startSDL();
+  }
+  catch (...)
+  {
+    return -1;
+  }
 
   v.start();
 

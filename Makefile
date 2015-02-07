@@ -6,7 +6,8 @@ INCLUDES = -Istk
 LIBS   = -lasound  \
          -lpthread \
          -lstk	   \
-	 `sdl2-config --libs`
+	 `sdl2-config --libs` \
+	 -g
 
 CFLAGS = -Wall -std=gnu++11 \
 	 -D__LINUX_ALSA__ -D__LITTLE_ENDIAN__ \
